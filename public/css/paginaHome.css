@@ -1,0 +1,114 @@
+/* Promo Sections */
+section.promo {
+    display: flex;
+    align-items: center;
+    max-width: 1100px;
+    margin: 40px auto;
+    gap: 40px;
+    padding: 0 30px;
+}
+
+section.promo:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+section.promo img {
+    width: 45%;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgb(211 47 47 / 0.3);
+}
+
+section.promo .text-box {
+    width: 50%;
+}
+
+section.promo .text-box h2 {
+    font-size: 2.2em;
+    color: #61c3ea;
+    margin-bottom: 14px;
+}
+
+section.promo .text-box p {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+section.promo .text-box button {
+    background: #61c3ea;
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    font-weight: 700;
+    font-size: 1.05em;
+    border-radius: 28px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+section.promo .text-box button:hover {
+    background: pink;
+}
+
+
+
+section.marcas {
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 0 30px;
+    text-align: center;
+}
+
+section.marcas h2 {
+    font-size: 2.4em;
+    font-weight: 700;
+    color: #61c3ea;
+    margin-bottom: 30px;
+}
+
+.marcas-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+}
+
+.logo-container {
+    background-color: white;
+    border-radius: 50%;
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+    max-width: 120px;
+}
+
+.logo-container:hover {
+    box-shadow: 0 6px 20px rgba(97, 195, 234, 0.5);
+}
+
+.logo-container img {
+    max-height: 70px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Responsive Navbar */
+@media (max-width: 900px) {
+    .marcas-logos {
+        gap: 20px;
+    }
+
+    .logo-container {
+        max-width: 90px;
+        padding: 10px;
+    }
+
+    .logo-container img {
+        max-height: 50px;
+    }
+}
