@@ -4,14 +4,14 @@
         <div class="card-header bg-white border-0 py-3">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="mb-0 fw-bold">
-                    Administrar Marcas
+                    Administrar Imágenes
                 </h4>
 
                 <input type="text" id="buscarProducto" class="form-control" placeholder="Buscar..." style="width:250px">
 
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#marcaModal" id="btnAddMarca">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imgModal" id="btnAddImagen">
                     <i class="bi bi-plus-lg"></i>
-                    Nueva Marca
+                    Cargar Imagen
                 </button>
             </div>
         </div>
@@ -22,41 +22,40 @@
                     <thead>
                         <tr>
                             <th>Imágen</th>
-                            <th>Marca</th>
+                            <th>Producto</th>
                             <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach ($marcas as $marca)
+                        @foreach ($imagenes as $img)
                             <tr>
 
-                                <td>                                    
-                                    @if ($marca->imagen)
-                                        <img src="{{asset('img/marcas/'.$marca->imagen)}}" class="img-thumbnail"
-                                            style="max-width: 60px;" alt="{{ $marca->marca }}" />
+                                <td>
+                                     @if ($img->imagen)
+                                        <img src="{{asset('img/img_productos/'.$img->imagen)}}" class="img-thumbnail"
+                                            style="max-width: 60px;" alt="{{ $img->nombre }}" />
                                     @else
-                                        <img src="{{ asset('img/vital.jpg') }}" class="img-thumbnail"
-                                            style="max-width: 60px;" alt="{{ $marca->marca }}" />
+                                        <img src="{{ asset('img/sinImg.png') }}" class="img-thumbnail"
+                                            style="max-width: 60px;" alt="default" />
                                     @endif
 
                                 </td>
 
                                 <td>
                                     <div class="fw-semibold">
-                                        {{ $marca->marca }}
+                                        {{ $img->producto->nombre }}
                                     </div>
                                 </td>
 
                                 <td>
                                     <div class="acciones">
-                                        <button class="btn btn-outline-warning btn-sm btn-edit-marca" 
-                                        data-bs-toggle="modal"
-                                            data-marca="{{ $marca->toJson() }}">
+                                        <button class="btn btn-outline-warning btn-sm btn-edit-imagen"
+                                            data-imagen='@json($img)'>
                                             <i class="bi bi-pencil"></i>
                                         </button>
 
-                                        <a href="{{ route('admin.marcas.eliminar', $marca->id) }}"
+                                        <a href="{{ route('admin.imagenes.eliminar', $img->id) }}"
                                             class="btn btn-outline-danger btn-sm ">
                                             <i class="bi bi-trash"></i>
                                         </a>
@@ -69,6 +68,6 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    @include('admin.partials.modalMarca')   
+
+    @include('admin.partials.modalImagenes')
 @endsection

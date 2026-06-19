@@ -5,9 +5,9 @@
 
         @foreach ($edades as $e)
             <div class="form-check">
-                <input class="form-check-input filtro-edad" type="radio" name="edad" value="{{$e->id}}">
-                <label class="form-check-label">                 
-                  {{ mb_strtoupper($e->edades, 'UTF-8') }}
+                <input class="form-check-input filtro-edad" type="radio" name="edad" value="{{ $e->id }}">
+                <label class="form-check-label">
+                    {{ mb_strtoupper($e->edades, 'UTF-8') }}
                 </label>
             </div>
         @endforeach
@@ -18,9 +18,9 @@
 
         <p class="mt-3 mb-1">Marca</p>
         @foreach ($marcas as $m)
-            <div class="form-check">               
-                <input class="form-check-input filtro-marca" type="checkbox" value="{{$m->id}}">
-                <label class="form-check-label">{{$m->marca}}</label>
+            <div class="form-check">
+                <input class="form-check-input filtro-marca" type="checkbox" value="{{ $m->id }}">
+                <label class="form-check-label">{{ $m->marca }}</label>
             </div>
         @endforeach
 

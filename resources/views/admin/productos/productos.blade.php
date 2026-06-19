@@ -41,7 +41,7 @@
                                         <img src="{{asset('img/'.$producto->imagen)}}" class="img-thumbnail"
                                             style="max-width: 60px;" alt="{{ $producto->nombre }}" />
                                     @else
-                                        <img src="{{ asset('img/vital.jpg') }}" class="img-thumbnail"
+                                        <img src="{{ asset('img/sinImg.png') }}" class="img-thumbnail"
                                             style="max-width: 60px;" alt="{{ $producto->nombre }}" />
                                     @endif
 

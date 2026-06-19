@@ -8,6 +8,7 @@ use App\Models\Marcas;
 use App\Models\Panales;
 use App\Models\Edades;
 use App\Models\Talles;
+use App\Models\Imagenes;
 
 class ProductoController extends Controller {
     
@@ -64,8 +65,12 @@ class ProductoController extends Controller {
     public function productos($categoria, $id_categoria)
     {
         $categorias = Categoria::all();
-        $categoriaActual = $categoria;
-        $productos = Producto::where('id_categoria', $id_categoria)->get();
+        $categoriaActual = $categoria;        
+        // $productos = Producto::where('id_categoria', $id_categoria)->get();
+        $productos = Producto::with('imagenPrincipal')
+            ->where('id_categoria', $id_categoria)
+            ->get();
+       
         $marcas = Marcas::all();
         $edades = Edades::all();
         $talles = Talles::all();
@@ -142,7 +147,13 @@ public function filtrarPanales(Request $request, $id)
 
     public function paginaDetalleProducto($id){
         
-        return view('paginaDetalle');
+        $categorias = Categoria::all();
+        $producto = Producto::with([
+            'imagenPrincipal',
+            'imagenesSecundarias'
+        ])->findOrFail($id);
+
+         return view('user.productos.detalle', compact('categorias', 'producto'));
            
     }
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\EdadController;
+use App\Http\Controllers\ImagenController;
 
 // Route::get('/', [ProductoController::class, 'paginaInicio'])
 //     ->name('inicio');
@@ -31,7 +32,7 @@ Route::post('/filtrarHigiene/{id}', [ProductoController::class, 'filtrarHigiene'
 Route::get('/contacto', [ProductoController::class, 'paginaContacto'])    
     ->name('contacto');
 
-Route::get('/detalleProducto/{id}', [ProductoController::class, 'paginaDetalleProducto'])    
+Route::get('/producto/{id}', [ProductoController::class, 'paginaDetalleProducto'])    
     ->name('detalleProducto');
 
 Route::get('/login', [AuthController::class, 'paginaLogin'])
@@ -88,3 +89,7 @@ Route::get('/admin/marcas/eliminar/{id}', [MarcaController::class, 'destroy'])->
 Route::get('/admin/edades', [EdadController::class, 'index'])->name('admin.edades');
 Route::post('/admin/edades/guardar', [EdadController::class, 'store'])->name('admin.edades.guardar');
 Route::get('/admin/edades/eliminar/{id}', [EdadController::class, 'destroy'])->name('admin.edades.eliminar');
+// Imágenes
+Route::get('/admin/imagenes', [ImagenController::class, 'index'])->name('admin.imagenes');
+Route::post('/admin/imagenes/guardar', [ImagenController::class, 'store'])->name('admin.imagenes.guardar');
+Route::get('/admin/imagenes/eliminar/{id}', [ImagenController::class, 'destroy'])->name('admin.imagenes.eliminar');

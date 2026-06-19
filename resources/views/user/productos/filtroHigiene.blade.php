@@ -1,4 +1,4 @@
-<div>
+
     <div class="sidebar">
 
         <h5><strong>HIGIENE</strong></h5>
@@ -53,4 +53,3 @@
     <button id="btn-limpiar-filtros" class="btn btn-outline-secondary w-100 mt-3">
         Limpiar filtros
     </button>
-</div>

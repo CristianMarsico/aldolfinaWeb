@@ -246,6 +246,12 @@
           EDADES
         </a>
       </li>
+
+      <li>
+        <a href="{{ route('admin.imagenes') }}" class="{{ (isset($activo) && $activo == 'imagenes') ? 'active' : '' }}">
+          IMÁGENES PRODUCTOS
+        </a>
+      </li>
     </ul>
   </nav>
 

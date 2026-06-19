@@ -36,25 +36,28 @@
 @extends('layouts.user')
 
 @section('content')
+    <div class="container my-4">
 
-<div class="container my-4">
+        <div class="productos-layout">
 
-    <div class="productos-layout">
+            @if ($categoriaActual == 'higiene')
+                @include ('user.productos.filtroHigiene')
+            @else
+                @include ('user.productos.filtroPanal')
+            @endif
 
-        @include('user.productos.filtroHigiene')
+            <div class="productos-content" id="contenedor-productos">
 
-        <div class="productos-content" id="contenedor-productos">
+                @include('user.productos.card')
 
-            @include('user.productos.card')
+            </div>
 
         </div>
 
     </div>
-
-</div>
-<script>
-        const id = {{ $id_categoria }};       
+    <script>
+        const id = {{ $id_categoria }};
     </script>
-    {{-- <script src="{{ asset('js/filtroPanalesSidebar.js') }}"></script> --}}
+    <script src="{{ asset('js/filtroPanalesSidebar.js') }}"></script>
     <script src="{{ asset('js/filtroHigieneSidebar.js') }}"></script>
 @endsection

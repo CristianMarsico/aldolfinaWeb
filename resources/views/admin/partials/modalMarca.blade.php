@@ -1,6 +1,6 @@
 <div class="modal fade" id="marcaModal" tabindex="-1" aria-labelledby="marcaModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <form method="POST" action="{{ route('admin.marcas.guardar') }}" class="modal-content">
+    <form method="POST" action="{{ route('admin.marcas.guardar') }}" enctype="multipart/form-data" class="modal-content">
       @csrf
       <input type="hidden" name="id" id="marcaId" value="" />
       <div class="modal-header">
@@ -11,6 +11,11 @@
         <div class="mb-3">
           <label for="marcaNombre" class="form-label">Nombre de la Marca</label>
           <input type="text" name="marca" id="marcaNombre" class="form-control" required />
+        </div>
+
+         <div class="mb-3">
+          <label for="imagen" class="form-label">Imagen</label>
+          <input type="file" id="imagen" name="imagen" class="form-control" accept="image/*" />
         </div>
       </div>
       <div class="modal-footer">

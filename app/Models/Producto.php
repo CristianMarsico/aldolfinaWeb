@@ -17,4 +17,32 @@ class Producto extends Model
             'id_marca'
         );
     }
+
+    public function imagenPrincipal()
+    {
+        return $this->hasOne(
+            Imagenes::class,
+            'id_producto',
+            'id'
+        )->where('principal', true);
+    }
+
+    public function imagenes()
+    {
+        return $this->hasMany(
+            Imagenes::class,
+            'id_producto',
+            'id'
+        );
+    }
+
+    public function imagenesSecundarias()
+    {
+        return $this->hasMany(
+            Imagenes::class,
+            'id_producto',
+            'id'
+        )->where('principal', false);
+    }
+
 }

@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/paginaContacto.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user/home/cardProducto.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user/productos/detalle.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('css/paginaHome.css') }}"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('css/paginaProductos.css') }}"> --}}
     {{-- <link rel="stylesheet" href="{{ asset('css/tabla.css') }}"> --}}
@@ -168,6 +169,7 @@
             text-decoration: none;
 
             border-radius: 10px;
+            width: 280px !important;
         }
 
         .hero-image img {
