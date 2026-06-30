@@ -1,10 +1,9 @@
 @extends('layouts.admin')
 
-@section('title', 'Administrar Edades')
+{{-- @section('title', 'Administrar Edades') --}}
 
 @section('content')
-
-    <div class="card shadow-sm border-0">
+    {{-- <div class="card shadow-sm border-0">
         <div class="card-header bg-white border-0 py-3">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="mb-0 fw-bold">
@@ -56,7 +55,58 @@
                 </table>
             </div>
         </div>
+    </div> --}}
+
+    <section class="table-card">
+
+        <div class="table-header">
+
+            <input type="text" id="buscarProducto" placeholder="Buscar marca...">
+
+            <button class="btn-primary" data-bs-toggle="modal" data-bs-target="#edadModal" id="btnAddEdad">
+                Agregar
+            </button>
+
+
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Edades</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($edades as $edad)
+                        <tr>
+                            <td>
+                                {{ $edad->edades }}
+                            </td>                            
+                            <td>
+                                <div class="acciones">
+                                    <button class="btn-table btn-edit btn-edit-edad" data-bs-toggle="modal"
+                                            data-edad="{{ $edad->toJson() }}">
+                                        Editar
+                                    </button>
+
+                                    <a href="{{ route('admin.edades.eliminar', $edad->id) }}"
+                                        class="btn-table btn-delete confirmDelete">
+                                        Eliminar
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
     </div>
     @include('admin.partials.modalEdad')
-
 @endsection

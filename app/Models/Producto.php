@@ -31,8 +31,7 @@ class Producto extends Model
     {
         return $this->hasMany(
             Imagenes::class,
-            'id_producto',
-            'id'
+            'id_producto'
         );
     }
 

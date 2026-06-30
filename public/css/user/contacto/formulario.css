@@ -1,0 +1,117 @@
+.contact-form-card {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 28px;
+    padding: 45px 35px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    min-width: 300px;
+    max-width: 450px;
+}
+
+.contact-form-card h2 {
+    margin-bottom: 2rem;
+    color: #195d9c;
+    font-weight: 700;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #535b68;
+    margin-bottom: 10px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    border: 1px solid #e5e7eb;
+    background: white;
+    border-radius: 16px;
+    padding: 18px 20px;
+    font-size: 1rem;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.form-group textarea {
+    min-height: 140px;
+    resize: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.10);
+}
+
+button[type="submit"] {
+    height: 58px;
+    border: none;
+    border-radius: 16px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    background: #1d4ed8;
+    box-shadow: 0 15px 30px rgba(37, 99, 235, 0.25);
+}
+
+@media (max-width: 768px) {
+
+    .contact-form-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 30px 20px !important;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.128) !important;
+        backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 1.1rem !important;
+        padding: 15px 20px !important;
+    }
+
+
+    button[type="submit"] {
+        font-size: 1.25rem !important;
+        padding: 16px 0 !important;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 1.1rem;
+        padding: 15px 18px;
+    }
+
+    button[type="submit"] {
+        font-size: 1.25rem;
+        padding: 16px 0;
+    }
+}

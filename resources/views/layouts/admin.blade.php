@@ -1,270 +1,414 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>@yield('title', 'Dashboard Admin')</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@yield('title', 'Dashboard Admin')</title>
+    <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/tablanueva.css') }}">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
 
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      height: 100vh;
-      overflow: hidden;
-    }
+    <style>
+  
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #f8fafc;
+        }
 
-    #wrapper {
-      display: flex;
-      height: 100%;
-      min-height: 100vh;
-    }
+        #wrapper {
+            display: flex;
+            height: 100vh;
+        }
 
-    #sidebar-wrapper {
-      width: 260px;
-      background: #3478f6;
-      color: white;
-      overflow-y: auto;
-      padding: 1rem;
-      transition: transform 0.3s ease;
-    }
+        #sidebar-wrapper {
+            width: 270px;
+            background: #fff;
+            border-right: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
 
-    #sidebar-wrapper .sidebar-heading {
-      font-weight: 700;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      text-align: center;
-      user-select: none;
-    }
+        .sidebar-heading {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 2rem;
+        }
 
-    #sidebar-wrapper ul,
-    #sidebar-wrapper li {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+        #sidebar-wrapper ul,
+        #sidebar-wrapper li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
 
-    #sidebar-wrapper li {
-      margin-bottom: 0.4rem;
-    }
+        #sidebar-wrapper li {
+            margin-bottom: 8px;
+        }
 
-    #sidebar-wrapper a {
-      color: white;
-      text-decoration: none;
-      padding: 7px 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-radius: 6px;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-      user-select: none;
-      cursor: pointer;
-    }
+        #sidebar-wrapper a {
+            text-decoration: none;
+            color: #4b5563;
 
-    #sidebar-wrapper a.active,
-    #sidebar-wrapper a:hover {
-      background-color: #275ec6;
-      font-weight: 700;
-    }
+            display: flex;
+            align-items: center;
+            gap: 12px;
 
-    #page-content-wrapper {
-      flex-grow: 1;
-      background: #f8fbff;
-      padding: 2rem;
-      overflow-y: auto;
-      min-width: 0;
-    }
+            padding: 12px 14px;
+            border-radius: 12px;
 
-    /* Submenu categorías */
-    .submenu {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease;
-      margin-left: 15px !important;
-      border-left: 2px solid rgba(255, 255, 255, 0.3);
-      
-    }
+            transition: .2s ease;
+        }
 
-    .submenu.open {
-      max-height: 1000px; /* un número grande para expandir */
-      margin-top: 0.5rem;
-    }
+        #sidebar-wrapper a:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
 
-    .submenu a {
-      padding: 6px 20px;
-      font-weight: 500;
-      margin-left: 15px;
-    }
+        #sidebar-wrapper a.active {
+            background: #2563eb;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, .25);
+        }
 
-    /* Icono toggle */
-    .toggle-icon {
-      transition: transform 0.3s ease;
-    }
-    .toggle-icon.open {
-      transform: rotate(90deg);
-    }
+        #page-content-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+        }
 
-    @media (max-width: 991px) {
+        .topbar {
+            height: 70px;
+            background: white;
+            border-radius: 16px;
 
-    #wrapper {
-        position: relative;
-    }
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-    #sidebar-wrapper {
-        position: fixed;
-        top: 0;
-        left: 0;
+            padding: 0 25px;
+            margin-bottom: 25px;
 
-        width: 260px;
-        height: 100vh;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+        }
 
-        z-index: 9999;
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-        transform: translateX(-100%);
-        transition: transform .3s ease;
-    }
+        .user-info i {
+            font-size: 28px;
+        }
 
-    #sidebar-wrapper.show {
-        transform: translateX(0);
-    }
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
 
-    #sidebarToggle {
-        position: fixed;
-        top: 15px;
-        left: 15px;
+            margin-left: 10px;
+            border-left: 2px solid #e5e7eb;
 
-        z-index: 10000;
-    }
+            transition: max-height .3s ease;
+        }
 
-    #page-content-wrapper {
-        width: 100%;
-        padding: 1rem;
-    }
-}
+        .submenu.open {
+            max-height: 1000px;
+        }
+
+        .submenu a {
+            font-size: .95rem;
+            padding-left: 20px;
+        }
+
+        .toggle-icon {
+            margin-left: auto;
+            transition: .3s;
+        }
+
+        .toggle-icon.open {
+            transform: rotate(90deg);
+        }
 
 
-.tabla-admin {
-    border-collapse: separate;
-    border-spacing: 0 10px;
-}
 
-.tabla-admin thead th {
-    background: transparent;
+
+        .hamburger-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+
+    width: 50px;
+    height: 50px;
+
     border: none;
-    color: #6c757d;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    font-weight: 600;
-}
+    border-radius: 12px;
 
-.tabla-admin tbody tr {
     background: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,.05);
-    transition: .2s;
-}
+    color: #111827;
 
-.tabla-admin tbody tr:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,.10);
-}
+    box-shadow: 0 4px 15px rgba(0,0,0,.12);
 
-.tabla-admin td {
-    border: none;
-    padding: 18px;
-    vertical-align: middle;
-}
+    z-index: 10001;
 
-.tabla-admin tbody tr td:first-child {
-    border-radius: 10px 0 0 10px;
-}
-
-.tabla-admin tbody tr td:last-child {
-    border-radius: 0 10px 10px 0;
-}
-
-.acciones {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-}
-
-.btn-accion {
-    width: 36px;
-    height: 36px;
+    font-size: 24px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 0;
-    border-radius: 8px;
+    transition: .25s;
 }
 
-.card {
-    border-radius: 15px;
+.hamburger-btn:hover {
+    transform: scale(1.05);
 }
 
-  </style>
+
+#sidebarOverlay {
+
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,.4);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: .3s;
+
+    z-index: 9998;
+}
+
+#sidebarOverlay.show {
+
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (max-width: 991px) {
+
+    #sidebar-wrapper {
+
+        position: fixed;
+
+        top: 0;
+        left: 0;
+
+        width: 280px;
+        height: 100vh;
+
+        z-index: 9999;
+
+        transform: translateX(-100%);
+
+        transition: transform .3s ease;
+
+        box-shadow: 10px 0 30px rgba(0,0,0,.15);
+    }
+
+    #sidebar-wrapper.show {
+
+        transform: translateX(0);
+    }
+
+    #page-content-wrapper {
+
+        width: 100%;
+        padding-top: 80px;
+    }
+}
+    </style>
 </head>
+
 <body>
-<div class="d-lg-none">
-    <button id="sidebarToggle" class="btn btn-primary">
+    <div class="d-lg-none">
+
+    <button id="sidebarToggle" class="hamburger-btn">
         <i class="bi bi-list"></i>
     </button>
-</div>
-<div id="wrapper">
-  <nav id="sidebar-wrapper" role="navigation" aria-label="Menú lateral">
-    <div class="sidebar-heading">Pañalera Admin</div>
-    <ul>
-      <li>
-        <a href="javascript:void(0);" id="productosToggle" aria-expanded="false" aria-controls="productosSubmenu" aria-haspopup="true">
-          PRODUCTOS
-          <i class="bi bi-chevron-right toggle-icon" id="iconProductos"></i>
-        </a>
-        <ul id="productosSubmenu" class="submenu" aria-hidden="true">
-          @foreach ($categorias as $categoria)
-            <li>
-              <a href="{{ route('admin.productos', ['categoria' => $categoria->categoria, 'id_categoria' => $categoria->id]) }}"
-                 class="{{ (isset($categoriaActual) && $categoriaActual == $categoria->categoria) ? 'active' : '' }}">
-                {{ ucfirst($categoria->categoria) }}
-              </a>
-            </li>
-          @endforeach
-        </ul>
-      </li>
-      <li>
-        <a href="{{ route('admin.marcas') }}" class="{{ (isset($activo) && $activo == 'marcas') ? 'active' : '' }}">
-          MARCAS
-        </a>
-      </li>
-      <li>
-        <a href="{{ route('admin.edades') }}" class="{{ (isset($activo) && $activo == 'edades') ? 'active' : '' }}">
-          EDADES
-        </a>
-      </li>
 
-      <li>
-        <a href="{{ route('admin.imagenes') }}" class="{{ (isset($activo) && $activo == 'imagenes') ? 'active' : '' }}">
-          IMÁGENES PRODUCTOS
-        </a>
-      </li>
-    </ul>
-  </nav>
-
-  <main id="page-content-wrapper" tabindex="-1">
-    @yield('content')
-  </main>
 </div>
 
+<div id="sidebarOverlay"></div>
+    <div id="wrapper">      
+        <nav id="sidebar-wrapper">
+            <ul>
 
- 
-<script>
+                <li>
+                    <a href="javascript:void(0);" id="productosToggle">
 
-  
+                        <i class="bi bi-box-seam"></i>
+
+                        <span>Productos</span>
+
+                        <i class="bi bi-chevron-right toggle-icon" id="iconProductos"></i>
+
+                    </a>
+
+                    <ul id="productosSubmenu" class="submenu">
+
+                        @foreach ($categorias as $categoria)
+                            <li>
+
+                                <a href="{{ route('admin.productos', [
+                                    'categoria' => $categoria->categoria,
+                                    'id_categoria' => $categoria->id,
+                                ]) }}"
+                                    class="{{ request()->routeIs('admin.productos') && request('id_categoria') == $categoria->id ? 'active' : '' }}">
+
+                                    {{ ucfirst($categoria->categoria) }}
+
+                                </a>
+
+                            </li>
+                        @endforeach
+
+                    </ul>
+
+                </li>
+
+                <li>
+
+                    <a href="{{ route('admin.marcas') }}"
+                        class="{{ request()->routeIs('admin.marcas') ? 'active' : '' }}">
+
+                        <i class="bi bi-tags"></i>
+
+                        <span>Marcas</span>
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="{{ route('admin.edades') }}"
+                        class="{{ request()->routeIs('admin.edades') ? 'active' : '' }}">
+
+                        <i class="bi bi-people"></i>
+
+                        <span>Edades</span>
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="{{ route('admin.imagenes') }}"
+                        class="{{ request()->routeIs('admin.imagenes') ? 'active' : '' }}">
+
+                        <i class="bi bi-images"></i>
+
+                        <span>Imágenes</span>
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </nav>
+        {{-- <main id="page-content-wrapper" tabindex="-1">
+            @yield('content')
+        </main> --}}
+
+        <main id="page-content-wrapper">
+
+            <div class="topbar">
+
+                <div>
+                    <h5 class="mb-0">Panel de Administración</h5>
+                </div>
+
+                <div class="user-info">
+
+                    <i class="bi bi-person-circle"></i>
+
+                    <span>Administrador</span>
+
+                </div>
+
+            </div>
+
+            @yield('content')
+
+        </main>
+    </div>
+    @include('componentModal')
+
+    {{-- <script src="{{ asset('js/modals.js') }}"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        // document.addEventListener('DOMContentLoaded', () => {
+
+        //     const toggleBtn = document.getElementById('productosToggle');
+        //     const submenu = document.getElementById('productosSubmenu');
+        //     const icon = document.getElementById('iconProductos');
+
+        //     const sidebar = document.getElementById('sidebar-wrapper');
+        //     const sidebarToggle = document.getElementById('sidebarToggle');
+
+        //     // BOTÓN HAMBURGUESA
+        //     if (sidebarToggle) {
+
+        //         sidebarToggle.addEventListener('click', () => {
+
+        //             sidebar.classList.toggle('show');
+
+        //             const icono = sidebarToggle.querySelector('i');
+
+        //             if (sidebar.classList.contains('show')) {
+
+        //                 icono.classList.remove('bi-list');
+        //                 icono.classList.add('bi-x-lg');
+
+        //             } else {
+
+        //                 icono.classList.remove('bi-x-lg');
+        //                 icono.classList.add('bi-list');
+        //             }
+
+        //         });
+
+        //     } // ← FALTABA ESTA LLAVE
+
+        //     // ABRIR SUBMENÚ SI HAY CATEGORÍA ACTIVA
+        //     const categoriaActual = @json($categoriaActual ?? '');
+
+        //     if (categoriaActual && submenu.querySelector('a.active')) {
+
+        //         submenu.classList.add('open');
+        //         toggleBtn.setAttribute('aria-expanded', 'true');
+        //         submenu.setAttribute('aria-hidden', 'false');
+        //         icon.classList.add('open');
+
+        //     }
+
+        //     // TOGGLE SUBMENÚ
+        //     toggleBtn.addEventListener('click', () => {
+
+        //         const isOpen = submenu.classList.toggle('open');
+
+        //         toggleBtn.setAttribute('aria-expanded', isOpen);
+        //         submenu.setAttribute('aria-hidden', !isOpen);
+
+        //         icon.classList.toggle('open', isOpen);
+
+        //     });
+
+        // });
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const toggleBtn = document.getElementById('productosToggle');
@@ -272,59 +416,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const icon = document.getElementById('iconProductos');
 
     const sidebar = document.getElementById('sidebar-wrapper');
-    const sidebarToggle = document.getElementById('sidebarToggle');
+    const btn = document.getElementById('sidebarToggle');
+    const overlay = document.getElementById('sidebarOverlay');
 
-    // BOTÓN HAMBURGUESA
-    if (sidebarToggle) {
+    btn.addEventListener('click', () => {
 
-        sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show');
 
-            sidebar.classList.toggle('show');
+        const icon = btn.querySelector('i');
 
-            const icono = sidebarToggle.querySelector('i');
+        if (sidebar.classList.contains('show')) {
 
-            if (sidebar.classList.contains('show')) {
+            icon.classList.remove('bi-list');
+            icon.classList.add('bi-x-lg');
 
-                icono.classList.remove('bi-list');
-                icono.classList.add('bi-x-lg');
+        } else {
 
-            } else {
+            icon.classList.remove('bi-x-lg');
+            icon.classList.add('bi-list');
+        }
 
-                icono.classList.remove('bi-x-lg');
-                icono.classList.add('bi-list');
-            }
+    });
 
-        });
+    overlay.addEventListener('click', () => {
 
-    } // ← FALTABA ESTA LLAVE
+        sidebar.classList.remove('show');
+        overlay.classList.remove('show');
 
-    // ABRIR SUBMENÚ SI HAY CATEGORÍA ACTIVA
-    const categoriaActual = @json($categoriaActual ?? '');
+        const icon = btn.querySelector('i');
 
-    if (categoriaActual && submenu.querySelector('a.active')) {
+        icon.classList.remove('bi-x-lg');
+        icon.classList.add('bi-list');
 
+    });
+    // Abrir automáticamente si hay una categoría activa
+    if (submenu.querySelector('.active')) {
         submenu.classList.add('open');
-        toggleBtn.setAttribute('aria-expanded', 'true');
-        submenu.setAttribute('aria-hidden', 'false');
         icon.classList.add('open');
-
     }
 
-    // TOGGLE SUBMENÚ
+    // Abrir/Cerrar al hacer click
     toggleBtn.addEventListener('click', () => {
 
-        const isOpen = submenu.classList.toggle('open');
-
-        toggleBtn.setAttribute('aria-expanded', isOpen);
-        submenu.setAttribute('aria-hidden', !isOpen);
-
-        icon.classList.toggle('open', isOpen);
+        submenu.classList.toggle('open');
+        icon.classList.toggle('open');
 
     });
 
 });
-</script>
+    </script>
 
-@stack('scripts')
+
 </body>
+
 </html>

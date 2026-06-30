@@ -16,8 +16,7 @@ class Imagenes extends Model
     {
         return $this->belongsTo(
             Producto::class,
-            'id_producto',
-            'id'
+            'id_producto'
         );
     }
 

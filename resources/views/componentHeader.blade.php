@@ -1,4 +1,4 @@
-@include('componentHead')
+{{-- @include('componentHead')
 <header>
     <div class="logo">
         <img src="{{ asset('img/69f8e7dd1aced4.80817744.jpg') }}" alt="Logo Pañalera" />
@@ -64,4 +64,4 @@
             searchContainer.classList.remove('open');
         }
     });
-</script>
+</script> --}}

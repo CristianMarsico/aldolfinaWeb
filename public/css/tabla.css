@@ -63,7 +63,7 @@
      object-fit: contain;
  }
 
- /* Botones */
+
  .btn-group {
      display: flex;
      gap: 10px;
@@ -123,7 +123,7 @@
          font-size: 0.9rem;
      }
 
-     /* Scroll horizontal suave en tabla */
+
      .container-table {
          overflow-x: auto;
          -webkit-overflow-scrolling: touch;

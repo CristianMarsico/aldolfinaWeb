@@ -1,4 +1,4 @@
-<div class="contact-form-card">
+{{-- <div class="contact-form-card">
     <h2 id="form-title">{{ $producto ? 'Editar Existente' : 'Crear Nuevo' }}</h2>
     <form class="contact-form" action="{{ route('guardarPanal') }}" method="POST" enctype="multipart/form-data"
         novalidate>
@@ -69,8 +69,8 @@
             @endif
         </div>
 
-        {{-- <button type="submit">{{ $producto ? 'Editar Producto' : 'Agregar Producto' }}</button> --}}
+       
         <button type="submit"
             class="btn-contact {{ $producto ? 'confirm-edit' : 'confirm-submit' }}">{{ $producto ? 'Editar Producto' : 'Agregar Producto' }}</button>
     </form>
-</div>
+</div> --}}

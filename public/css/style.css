@@ -1,20 +1,10 @@
-/* body {
-    font-family: 'Segoe UI', sans-serif;
-} */
-  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css');
  
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
-
-/* body {
-    font-family: Arial, sans-serif;
-    background: #fff;
-    color: #333;
-} */
-
 
 body {
     font-family: 'Inter', sans-serif;

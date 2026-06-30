@@ -5,60 +5,52 @@ use App\Models\Marcas;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
 
-class MarcaController extends Controller
-{
-    public function index()
-    {
+class MarcaController extends Controller{
+   
+    public function index(){
         $categorias = Categoria::all();
         $marcas = Marcas::all();
         return view('admin.marcas.index', compact('marcas', 'categorias'));
     }
 
-public function store(Request $request)
-{
-    $request->validate([
-        'marca' => 'required|string|max:255',
-        'imagen' => 'nullable|image|max:2048'
-    ]);
+    public function store(Request $request){
+        $request->validate([
+            'marca' => 'required|string|max:255',
+            'imagen' => 'nullable|image|max:2048'
+        ]);
 
-    if ($request->id) {
+        if ($request->id)  $marca = Marcas::findOrFail($request->id);
+        else  $marca = new Marcas();
 
-        $marca = Marcas::findOrFail($request->id);
+        $marca->marca = $request->marca;
 
-    } else {
+        if ($request->hasFile('imagen')) {
 
-        $marca = new Marcas();
-    }
+            if (
+                $marca->imagen &&
+                file_exists(public_path('img/marcas/' . $marca->imagen))
+            ) {
+                unlink(public_path('img/marcas/' . $marca->imagen));
+            }
 
-    $marca->marca = $request->marca;
+            $nombreImagen =
+                uniqid('marca_') . '.' .
+                $request->file('imagen')->getClientOriginalExtension();
 
-    if ($request->hasFile('imagen')) {
+            $request->file('imagen')->move(
+                public_path('img/marcas'),
+                $nombreImagen
+            );
 
-        if (
-            $marca->imagen &&
-            file_exists(public_path('img/marcas/' . $marca->imagen))
-        ) {
-            unlink(public_path('img/marcas/' . $marca->imagen));
+            $marca->imagen = $nombreImagen;
         }
 
-        $nombreImagen =
-            uniqid('marca_') . '.' .
-            $request->file('imagen')->getClientOriginalExtension();
+        $marca->save();
 
-        $request->file('imagen')->move(
-            public_path('img/marcas'),
-            $nombreImagen
-        );
-
-        $marca->imagen = $nombreImagen;
+        return redirect()->route('admin.marcas');
     }
 
-    $marca->save();
-
-    return redirect()->route('admin.marcas');
-}
-    public function destroy($id)
-    {
+    public function destroy($id){
         Marcas::destroy($id);
         return redirect()->route('admin.marcas');
     }

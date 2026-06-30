@@ -1,74 +1,61 @@
 @extends('layouts.admin')
 @section('content')
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-white border-0 py-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <h4 class="mb-0 fw-bold">
-                    Administrar Marcas
-                </h4>
-
-                <input type="text" id="buscarProducto" class="form-control" placeholder="Buscar..." style="width:250px">
-
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#marcaModal" id="btnAddMarca">
-                    <i class="bi bi-plus-lg"></i>
-                    Nueva Marca
-                </button>
-            </div>
+    <section class="table-card">
+        <div class="table-header">
+            <input type="text" id="buscarProducto" placeholder="Buscar marca...">
+            {{-- <button class="btn-primary" data-bs-toggle="modal" data-bs-target="#marcaModal" id="btnAddMarca">
+                Agregar
+            </button> --}}
+            <button class="btn-primary" id="btnAddMarca">
+                Agregar
+            </button>
         </div>
 
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table tabla-admin align-middle">
-                    <thead>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Imágen</th>
+                        <th>Marca</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($marcas as $marca)
                         <tr>
-                            <th>Imágen</th>
-                            <th>Marca</th>
-                            <th class="text-center">Acciones</th>
+                            <td>
+                                @if ($marca->imagen)
+                                    <img src="{{ asset('img/marcas/' . $marca->imagen) }}" class="img-thumbnail"
+                                        style="max-width: 60px;" alt="{{ $marca->marca }}" />
+                                @else
+                                    <img src="{{ asset('img/sinImg.png') }}" class="img-thumbnail" style="max-width: 60px;"
+                                        alt="{{ $marca->marca }}" />
+                                @endif
+
+                            </td>
+                            <td>{{ $marca->marca }}</td>
+                            <td>
+                                <div class="acciones">
+                                    {{-- <button class="btn-table btn-edit btn-edit-marca" data-marca="{{ $marca->toJson() }}"
+                                        data-bs-toggle="modal">
+                                        Editar
+                                    </button> --}}
+                                    <button class="btn-table btn-edit btn-edit-marca" data-marca="{{ $marca->toJson() }}">
+                                        Editar
+                                    </button>
+                                    <a href="{{ route('admin.marcas.eliminar', $marca->id) }}"
+                                        class="btn-table btn-delete confirmDelete">
+                                        Eliminar
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach ($marcas as $marca)
-                            <tr>
-
-                                <td>                                    
-                                    @if ($marca->imagen)
-                                        <img src="{{asset('img/marcas/'.$marca->imagen)}}" class="img-thumbnail"
-                                            style="max-width: 60px;" alt="{{ $marca->marca }}" />
-                                    @else
-                                        <img src="{{ asset('img/vital.jpg') }}" class="img-thumbnail"
-                                            style="max-width: 60px;" alt="{{ $marca->marca }}" />
-                                    @endif
-
-                                </td>
-
-                                <td>
-                                    <div class="fw-semibold">
-                                        {{ $marca->marca }}
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="acciones">
-                                        <button class="btn btn-outline-warning btn-sm btn-edit-marca" 
-                                        data-bs-toggle="modal"
-                                            data-marca="{{ $marca->toJson() }}">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-
-                                        <a href="{{ route('admin.marcas.eliminar', $marca->id) }}"
-                                            class="btn btn-outline-danger btn-sm ">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
+    </section>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    @include('admin.partials.modalMarca')   
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> --}}
+    @include('admin.partials.modalMarca')
 @endsection

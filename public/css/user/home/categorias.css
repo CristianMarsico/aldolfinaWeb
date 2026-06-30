@@ -1,0 +1,32 @@
+.categorias-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.categoria {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #111827;
+    transition: .2s;
+}
+
+.categoria:hover {
+    transform: translateY(-4px);
+}
+
+.categoria img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+}
+
+.categoria span {
+    display: block;
+    padding: 16px;
+    font-weight: 600;
+    text-align: center;
+}

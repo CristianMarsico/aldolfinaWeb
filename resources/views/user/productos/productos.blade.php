@@ -39,12 +39,12 @@
     <div class="container my-4">
 
         <div class="productos-layout">
-
-            @if ($categoriaActual == 'higiene')
+            @include ('user.productos.filtro')
+            {{-- @if ($categoriaActual == 'higiene')
                 @include ('user.productos.filtroHigiene')
             @else
                 @include ('user.productos.filtroPanal')
-            @endif
+            @endif --}}
 
             <div class="productos-content" id="contenedor-productos">
 
@@ -58,6 +58,5 @@
     <script>
         const id = {{ $id_categoria }};
     </script>
-    <script src="{{ asset('js/filtroPanalesSidebar.js') }}"></script>
-    <script src="{{ asset('js/filtroHigieneSidebar.js') }}"></script>
+    <script src="{{ asset('js/filtro.js') }}"></script>
 @endsection

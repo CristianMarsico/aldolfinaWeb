@@ -20,42 +20,11 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" id="btn-submit-marca" class="btn btn-primary">Guardar</button>
       </div>
     </form>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const marcaModal = new bootstrap.Modal(document.getElementById('marcaModal'));
-    const form = document.querySelector('#marcaModal form');
-    const modalTitle = document.getElementById('marcaModalLabel');
-
-    document.getElementById('btnAddMarca').addEventListener('click', () => {
-      modalTitle.textContent = 'Agregar Marca';
-      form.reset();
-      form.id.value = '';
-    });
-
-    document.querySelectorAll('.btn-edit-marca').forEach(button => {
-      button.addEventListener('click', () => {
-        const marca = JSON.parse(button.dataset.marca);
-        modalTitle.textContent = 'Editar Marca';
-        form.id.value = marca.id || '';
-        form.marca.value = marca.marca || '';
-        marcaModal.show();
-      });
-    });
-
-    document.querySelectorAll('.btn-danger.confirm').forEach(button => {
-      button.addEventListener('click', e => {
-        e.preventDefault();
-        if (confirm('¿Estás seguro que deseas eliminar este registro?')) {
-          window.location.href = button.href;
-        }
-      });
-    });
-  });
-</script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> --}}
+<script src="{{ asset('js/auth/marcas.js') }}"></script>

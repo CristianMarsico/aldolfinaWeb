@@ -9,43 +9,21 @@ use App\Models\Marcas;
 use App\Models\Edades;
 use App\Models\Talles;
 
-class AdminController extends Controller
-{
-public function dashboard()
-{
-    $categorias = Categoria::all();
-    return view('admin.dashboard', compact('categorias'));
-}
-public function productos($categoria, $id_categoria)
-{
-    $categorias = Categoria::all();
-    $categoriaActual = $categoria;   
-    $productos = Producto::where('id_categoria', $id_categoria)->get();
+class AdminController extends Controller{
+    public function dashboard(){
+        $categorias = Categoria::all();
+        return view('admin.dashboard', compact('categorias'));
+    }
+    public function productos($categoria, $id_categoria){
+        $categorias = Categoria::all();
+        $categoriaActual = $categoria;   
+        $productos = Producto::where('id_categoria', $id_categoria)->get();
 
-   
-    $marcas = Marcas::all();
-    $edades = Edades::all();
-    $talles = Talles::all();
-    return view('admin.productos.productos', compact('categorias', 'categoriaActual', 'productos', 'marcas', 'edades', 'talles', 'id_categoria'));
-}
-    // public function categoria($categoria, $id_categoria)
-    // {
-    //     $categorias = Categoria::all();
-    //     $categoriaActual = $categoria;
+    
+        $marcas = Marcas::all();
+        $edades = Edades::all();
+        $talles = Talles::all();
+        return view('admin.productos.productos', compact('categorias', 'categoriaActual', 'productos', 'marcas', 'edades', 'talles', 'id_categoria'));
+    }
 
-    //     $productos = Producto::where('id_categoria', $id_categoria)->get();
-    //     $marcas = Marcas::all();
-    //     $edades = Edades::all();
-    //     $talles = Talles::all();
-        
-    //     return view('admin.categoria', compact(
-    //         'categorias',
-    //         'categoriaActual',
-    //         'productos',
-    //         'marcas',
-    //         'edades',
-    //         'talles',
-    //         'id_categoria'
-    //     ));
-    // }
 }

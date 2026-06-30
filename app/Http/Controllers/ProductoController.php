@@ -11,15 +11,6 @@ use App\Models\Talles;
 use App\Models\Imagenes;
 
 class ProductoController extends Controller {
-    
-    // public function paginaInicio(){
-    //     $categorias = Categoria::all();
-
-    //     return view('paginaHome', [
-    //         'categorias' => $categorias
-    //     ]);
-    // }
-
 
     public function paginaInicio(){
         $categorias = Categoria::all();
@@ -27,15 +18,6 @@ class ProductoController extends Controller {
         $oferta=false;
         return view('user.home.home', compact('categorias', 'productos', 'oferta'));
     }
-
-    // public function paginaContacto(){
-    //     $categorias = Categoria::all();
-
-    //     return view('paginaContacto', [
-    //         'categorias' => $categorias
-    //     ]);
-    // }
-
 
     public function paginaContacto(){
         $categorias = Categoria::all();
@@ -45,31 +27,14 @@ class ProductoController extends Controller {
         ]);
     }
 
-
-    // public function verPanales($id){
-    //     $productos = Producto::where('id_categoria', $id)->get();
-    //     $categorias = Categoria::all();
-    //     $marcas = Marcas::all();
-    //     $edades = Edades::all();        
-
-    //     return view('paginaPanales', [
-    //         'categorias' => $categorias,
-    //         'marcas' => $marcas,
-    //         'edades' => $edades,
-    //         'productos' => $productos,
-    //         'id' => $id
-    //     ]);
-    // }
-
-
     public function productos($categoria, $id_categoria)
     {
         $categorias = Categoria::all();
         $categoriaActual = $categoria;        
-        // $productos = Producto::where('id_categoria', $id_categoria)->get();
+        
         $productos = Producto::with('imagenPrincipal')
             ->where('id_categoria', $id_categoria)
-            ->get();
+            ->get();    
        
         $marcas = Marcas::all();
         $edades = Edades::all();
@@ -78,72 +43,29 @@ class ProductoController extends Controller {
         return view('user.productos.productos', compact('categorias', 'productos', 'marcas', 'edades', 'talles', 'id_categoria','categoriaActual', 'oferta'));
     }
 
+    public function filtrarProductos(Request $request, $id){
+    
+        $marcas = $request->marcas ?? [];
+        $edad = $request->edad;
+        $precio = $request->precio;
 
-// public function filtrarPanales(Request $request, $id)
-// {
- 
-//     $marcas = $request->marcas ?? [];
-//     $edad = $request->edad;
-//     $precio = $request->precio;
+        $query = Producto::where('id_categoria', $id);
 
-//     $query = Producto::where('id_categoria', $id);
+        if ($edad) $query->where('id_edad', $edad);    
 
-//     if ($edad) $query->where('id_edad', $edad);    
+        if (!empty($marcas)) $query->whereIn('id_marca', $marcas);    
 
-//     if (!empty($marcas)) $query->whereIn('id_marca', $marcas);    
+        if ($precio) {
+            [$min, $max] = explode('-', $precio);
+            $query->whereBetween('precio', [$min, $max]);
+        }
 
-//     if ($precio) {
-//         [$min, $max] = explode('-', $precio);
-//         $query->whereBetween('precio', [$min, $max]);
-//     }
+        $productos = $query->get();    
 
-//     $productos = $query->get();
-
-//     return view('componentCard', [
-//         'productos' => $productos
-//     ]);
-// }
-public function filtrarPanales(Request $request, $id)
-{
- 
-    $marcas = $request->marcas ?? [];
-    $edad = $request->edad;
-    $precio = $request->precio;
-
-    $query = Producto::where('id_categoria', $id);
-
-    if ($edad) $query->where('id_edad', $edad);    
-
-    if (!empty($marcas)) $query->whereIn('id_marca', $marcas);    
-
-    if ($precio) {
-        [$min, $max] = explode('-', $precio);
-        $query->whereBetween('precio', [$min, $max]);
+        return view('user.productos.card', [
+            'productos' => $productos
+        ]);
     }
-
-    $productos = $query->get();    
-
-    return view('user.productos.card', [
-        'productos' => $productos
-    ]);
-}
-
-    // public function verHigiene($id){
-    //     $productos = Producto::where('id_categoria', $id)->get();
-    //     $categorias = Categoria::all();
-        
-    //     $marcas = Marcas::whereHas('productos', function ($query) use ($id) {
-    //         $query->where('id_categoria', $id);
-    //     })->get();
-      
-
-    //     return view('paginaHigiene', [
-    //         'productos' => $productos,
-    //         'categorias' => $categorias,
-    //         'marcas' => $marcas,
-    //         'id' => $id
-    //     ]);
-    // }
 
     public function paginaDetalleProducto($id){
         
@@ -157,87 +79,71 @@ public function filtrarPanales(Request $request, $id)
            
     }
 
-    public function filtrarHigiene(Request $request, $id)
-{
+    public function store(Request $request){
 
-    $marcas = $request->marcas ?? [];
-    $precio = $request->precio;
-   
+        $request->validate([
+            'nombre' => 'required',
+            'descripcion_corta' => 'required',
+            'descripcion_larga' => 'required',
+            'edad' => 'required',
+            'marca' => 'required',
+            'talle' => 'required',
+            'precio' => 'required|numeric',
+            'stock' => 'required|integer',
+            'imagen' => 'nullable|image|max:2048'
+         ]);          
 
-    $query = Producto::where('id_categoria', $id);
+        if ($request->id) {
+            $producto = Producto::findOrFail($request->id);
+        } else {
+            $producto = new Producto();
+            $producto->id_categoria = $request->id_categoria;
+        }
 
-    // MARCAS
-    if (!empty($marcas)) {
-        $query->whereIn('id_marca', $marcas);
+        $producto->nombre = $request->nombre;
+        $producto->id_edad = $request->edad;
+        $producto->id_marca = $request->marca;
+        $producto->id_talle = $request->talle;
+        $producto->precio = $request->precio;
+        $producto->stock = $request->stock;
+        $producto->descripcion_corta = $request->descripcion_corta;
+        $producto->descripcion_larga =$request->descripcion_larga;
+
+        $categoria = Categoria::find($request->id_categoria);
+
+        $producto->save();
+        return redirect()->route('admin.productos', [
+            'categoria' => $categoria->categoria,
+            'id_categoria' => $request->id_categoria
+        ]);
     }
 
-    // PRECIO
-    if ($precio) {
 
-        [$min, $max] = explode('-', $precio);
+    public function destroy($id){
+       $producto = Producto::findOrFail($id);
 
-        $query->whereBetween('precio', [$min, $max]);
+        $idCategoria = $producto->id_categoria;
+
+        $categoria = Categoria::findOrFail($idCategoria);
+
+        $producto->delete();
+
+        return redirect()->route('admin.productos', [
+            'categoria' => $categoria->categoria,
+            'id_categoria' => $categoria->id
+        ]);       
     }
 
-    $productos = $query->get();
 
-    return view('user.productos.card', [
-        'productos' => $productos
-    ]);
-}
+    public function buscarProductos(Request $request, $id_categoria){
+        $buscar = $request->buscar;
 
-//  public function formulario($id = null)
-//     {
-//         $marcas = Marcas::all();
-//         $producto = null;
-//         if ($id) {
-//             $producto = Producto::findOrFail($id);
-//         }
-//         return view('productos.formulario', compact('marcas', 'producto'));
-//     }
-    // public function agregar(Request $request)
-    // {
-    //     $request->validate([
-    //         'nombre' => 'required',
-    //         'marca' => 'required|exists:marcas,id',
-    //         'imagen' => 'nullable|image|max:2048',
-    //         // otras validaciones
-    //     ]);
-    //     $producto = new Producto();
-    //     $producto->nombre = $request->nombre;
-    //     $producto->marca_id = $request->marca;
-    //     // cargar más campos...
-    //     if ($request->hasFile('imagen')) {
-    //         $path = $request->file('imagen')->store('imagenes', 'public');
-    //         $producto->imagen = $path;
-    //     }
-    //     $producto->save();
-    //     return redirect()->route('productos.formulario')->with('success', 'Producto agregado');
-    // }
-    // public function editar(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'nombre' => 'required',
-    //         'marca' => 'required|exists:marcas,id',
-    //         'imagen' => 'nullable|image|max:2048',
-    //     ]);
-    //     $producto = Producto::findOrFail($id);
-    //     $producto->nombre = $request->nombre;
-    //     $producto->marca_id = $request->marca;
-    //     // cargar más campos...
-    //     if ($request->hasFile('imagen')) {
-    //         if ($producto->imagen) {
-    //             \Storage::disk('public')->delete($producto->imagen);
-    //         }
-    //         $path = $request->file('imagen')->store('imagenes', 'public');
-    //         $producto->imagen = $path;
-    //     }
-    //     $producto->save();
-    //     return redirect()->route('productos.formulario', $id)->with('success', 'Producto editado');
-    // }
+        $productos = Producto::where('id_categoria', $id_categoria)
+            ->where('nombre', 'LIKE', "%{$buscar}%")
+            ->get();
 
-
-
+        return response()->json($productos);
+    }
 
 
 }

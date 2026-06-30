@@ -1,0 +1,124 @@
+nav {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-container {
+    position: relative;
+}
+
+.menu-toggle {
+    display: none;
+
+    width: 48px;
+    height: 48px;
+
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+
+    transition: all .3s ease;
+}
+
+/* MENÚ DESKTOP */
+.menu {
+    display: flex;
+    gap: 25px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #555;
+    padding: 15px 0;
+    position: relative;
+    transition: .2s;
+}
+
+.menu-toggle:hover {
+    background: #f8fafc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+}
+
+.menu-toggle span {
+    width: 22px;
+    height: 2px;
+    background: #334155;
+    border-radius: 10px;
+    transition: all .3s ease;
+}
+
+.menu a.active {
+    background: #e0f2fe;
+    color: #0284c7;
+    border-radius: 8px;
+    padding: 8px 14px;
+}
+
+.menu a.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: #0284c7;
+    border-radius: 3px;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+    .menu-toggle {
+        display: flex;        
+    }
+
+    .menu {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        height: auto;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, .1);
+        z-index: 1000;
+    }
+
+    .menu.show {
+        display: flex;
+    }
+
+    .menu a {
+        padding: 15px 20px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .menu a.active {
+        margin: 5px;
+    }
+}
